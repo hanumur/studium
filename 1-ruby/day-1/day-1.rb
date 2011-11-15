@@ -26,3 +26,4 @@ while guess != secret do
     puts 'Too low'  if guess < secret
 end
 
+puts 'You found the number'
