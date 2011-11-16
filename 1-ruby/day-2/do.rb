@@ -45,3 +45,12 @@ def grep(filename, phrase)
 end
 
 grep('bus.txt', 'go')
+
+# If you want, include line numbers.
+def grepWithLineNumbers(filename, phrase)
+    File.open(filename) do |file|
+        file.each { |line| puts "#{file.lineno}: #{line}" if line =~ /#{phrase}/ }
+    end
+end
+
+grepWithLineNumbers('bus.txt', 'go')
