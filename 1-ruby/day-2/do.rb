@@ -1,10 +1,8 @@
 
 # Print the contents of an array of sixteen numbers, four numbers at a time, using just each.
-count = 1
 (1..16).to_a.each do |x|
     print x, ' '
-    puts if count % 4 == 0
-    count += 1
+    puts if x % 4 == 0
 end
 
 # Now, do the same with each_slice in Enumerable.
