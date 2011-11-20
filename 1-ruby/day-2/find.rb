@@ -20,4 +20,4 @@ h.each {|key, value| puts "#{key} is #{value}" }
 
 
 # You can use Ruby arrays as stacks. What other common data structures do arrays support?
-    # Set
+    # Queue
