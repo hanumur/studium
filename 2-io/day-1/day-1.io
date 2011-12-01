@@ -46,6 +46,5 @@ e catch(Exception,
 
 
 # Execute the code in a slot given its name.
-Dog := Object clone
-Dog bark := method("woof!" println)
-Dog bark
+bark := method("woof!" println)
+bark
