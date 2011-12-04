@@ -25,10 +25,10 @@ secret = rand(10)
 guess = -1
 
 while guess != secret do
-    puts 'Enter a number:'
-    guess = gets.to_i
-    puts 'Too high' if guess > secret
-    puts 'Too low'  if guess < secret
+  puts 'Enter a number:'
+  guess = gets.to_i
+  puts 'Too high' if guess > secret
+  puts 'Too low'  if guess < secret
 end
 
 puts 'You found the number'
