@@ -140,7 +140,7 @@ def post_newcomment():
     permalink = cgi.escape(permalink)
 
     # XXX HW 3.3 - Find the post that matches the permalink.
-    post = None  # Replace this line with your work.
+    post = posts.find_one({'permalink': permalink})
 
     # if post not found, redirct to post not found error
     if post == None:
@@ -177,6 +177,11 @@ def post_newcomment():
             # Work here.
             # You will need to update the blog post and add the comment onto the comment array. make sure
             # you only update one document here by updating the one with the right permalink.
+            if ('comments' not in post):
+                post['comments'] = []
+            comments = post['comments']
+            comments.append(comment)
+            posts.update({'permalink': post['permalink']}, {'$set': {'comments': comments}})
             
             # your update here.
             print "about to update a blog post with a comment"
