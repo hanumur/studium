@@ -38,4 +38,4 @@ Landing the next tech job.
 
 - .save()
 - New features Grails 2.x
-- High traffic - Scalability
+- Scaling up a website to deal with high-volume traffic. Caching. Database queries
