@@ -115,7 +115,10 @@ Exercise from the course [M101P: MongoDB for Developers (Python)].
 
     db.zips.aggregate([{$group: {_id: "$state", "pop": {$max: "$pop"}}}])
 
-    db.fun.aggregate([{$group: {_id: {a: "$a", b: "$b"}, c: {$max: "$c"}}}, {$group: {_id: "$_id.a", c: {$min: "$c"}}}])
+    db.fun.aggregate([
+        {$group: {_id: {a: "$a", b: "$b"}, c: {$max: "$c"}}},
+        {$group: {_id: "$_id.a", c: {$min: "$c"}}}
+    ])
 
     db.zips.aggregate([{$project: {_id: 0, city: {$toLower: "$city"}, pop: 1, state: 1, zip: "$_id"}}])
 

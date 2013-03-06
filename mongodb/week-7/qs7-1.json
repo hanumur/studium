@@ -1,0 +1,5 @@
+db.messages.aggregate([
+    {$unwind: "$headers.To"},
+    {$match: {"headers.From": "andrew.fastow@enron.com", "headers.To": "jeff.skilling@enron.com"}},
+    {$group: {_id: null, "total": {$sum: 1}}}
+])
