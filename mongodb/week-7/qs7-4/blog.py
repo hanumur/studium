@@ -236,6 +236,11 @@ def post_comment_like():
     # it all looks good. increment the ordinal (no error checking, but whatever)
     try:
         # XXX Final exam problem 4. Work here.
+        if ('num_likes' not in post['comments'][ordinal]):
+            post['comments'][ordinal]['num_likes'] = 0
+
+        post['comments'][ordinal]['num_likes'] = post['comments'][ordinal]['num_likes'] + 1
+        posts.update({'permalink': permalink}, {'$set': {'comments': post['comments']}})
 
         print "Incrementing the like counter"
 
