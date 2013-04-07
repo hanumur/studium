@@ -26,7 +26,7 @@ object Main {
 
   def balance(chars: List[Char], parenthesesBalance: Int): Int =
     if (chars.isEmpty) parenthesesBalance
-    else if (chars.head == ')' && parenthesesBalance == 0) return -1
+    else if (chars.head == ')' && parenthesesBalance == 0) -1
     else if (chars.head == ')') balance(chars.tail, parenthesesBalance - 1)
     else if (chars.head == '(') balance(chars.tail, parenthesesBalance + 1)
     else balance(chars.tail, parenthesesBalance)
