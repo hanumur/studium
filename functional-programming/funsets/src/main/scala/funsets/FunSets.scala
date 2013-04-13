@@ -20,34 +20,35 @@ object FunSets {
   /**
    * Returns the set of the one given element.
    */
-  def singletonSet(elem: Int): Set = (x: Int) => x == elem
+  def singletonSet(elem: Int): Set =
+    x => x == elem
 
   /**
    * Returns the union of the two given sets,
    * the sets of all elements that are in either `s` or `t`.
    */
   def union(s: Set, t: Set): Set =
-    (x: Int) => contains(s, x) || contains(t, x)
+    x => contains(s, x) || contains(t, x)
 
   /**
    * Returns the intersection of the two given sets,
    * the set of all elements that are both in `s` and `t`.
    */
   def intersect(s: Set, t: Set): Set =
-    (x: Int) => contains(s, x) && contains(t, x)
+    x => contains(s, x) && contains(t, x)
 
   /**
    * Returns the difference of the two given sets,
    * the set of all elements of `s` that are not in `t`.
    */
   def diff(s: Set, t: Set): Set =
-    (x: Int) => contains(s, x) && !contains(t, x)
+    x => contains(s, x) && !contains(t, x)
 
   /**
    * Returns the subset of `s` for which `p` holds.
    */
   def filter(s: Set, p: Int => Boolean): Set =
-    (x: Int) => contains(s, x) && contains(p, x)
+    x => contains(s, x) && contains(p, x)
 
   /**
    * The bounds for `forall` and `exists` are +/- 1000.
@@ -71,13 +72,13 @@ object FunSets {
    * that satisfies `p`.
    */
   def exists(s: Set, p: Int => Boolean): Boolean =
-    !forall(s, (x: Int) => !contains(p, x))
+    !forall(s, x => !contains(p, x))
 
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
   def map(s: Set, f: Int => Int): Set =
-    (x: Int) => exists(s, y => f(y) == x)
+    x => exists(s, y => f(y) == x)
 
   /**
    * Displays the contents of a set

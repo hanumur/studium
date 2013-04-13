@@ -83,7 +83,7 @@ class FunSetSuite extends FunSuite {
     val set1 = boundedSet(1, 2)
     val set2 = boundedSet(2, 3)
 
-    def evenNumbers: Set = (x:Int) => x % 2 == 0
+    def evenNumbers: Set = x => x % 2 == 0
     def multiplesOfFour(x: Int) = x % 4 == 0
   }
 
@@ -155,7 +155,7 @@ class FunSetSuite extends FunSuite {
   test("exits an element in a set that satisfy a predicate") {
     new TestSets {
       assert(exists(evenNumbers, x => x == 4), "Number 4 exists in even numbers")
-      assert(!exists(evenNumbers, x =>  x == 5), "Number 5 not exists in even numbers")
+      assert(!exists(evenNumbers, x => x == 5), "Number 5 not exists in even numbers")
     }
   }
   
