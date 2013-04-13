@@ -78,11 +78,13 @@ class FunSetSuite extends FunSuite {
     val s2 = singletonSet(2)
     val s3 = singletonSet(3)
 
-    def evenNumbers: Set = x => x % 2 == 0
     def boundedSet(i: Int, j: Int): Set = x => x >= i && x <= j
     def arbitrarySet(i: Int*): Set = x => i.contains(x)
     val set1 = boundedSet(1, 2)
     val set2 = boundedSet(2, 3)
+
+    def evenNumbers: Set = (x:Int) => x % 2 == 0
+    def multiplesOfFour(x: Int) = x % 4 == 0
   }
 
   /**
@@ -128,18 +130,41 @@ class FunSetSuite extends FunSuite {
   test("diff contains all elements in a set that are not in another") {
     new TestSets {
       val s = diff(set1, set2)
-      assert(contains(s, 1), "Intersect 1")
-      assert(!contains(s, 2), "Intersect 2")
-      assert(!contains(s, 3), "Intersect 3")
+      assert(contains(s, 1), "Diff 1")
+      assert(!contains(s, 2), "Diff 2")
+      assert(!contains(s, 3), "Diff 3")
     }
   }
 
   test("filter elements in a set that holds a predicate") {
     new TestSets {
       val s = filter(set1, x => x <= 2)
-      assert(contains(s, 1), "Intersect 1")
-      assert(contains(s, 2), "Intersect 2")
-      assert(!contains(s, 3), "Intersect 3")
+      assert(contains(s, 1), "Filter 1")
+      assert(contains(s, 2), "Filter 2")
+      assert(!contains(s, 3), "Filter 3")
+    }
+  }
+
+  test("all elements in a set satisfes a predicate") {
+    new TestSets {
+      assert(forall(multiplesOfFour, evenNumbers), "All multiples of 4 are even numbers")
+      assert(!forall(evenNumbers, multiplesOfFour), "All evens numbers aren't multiples of 4")
+    }
+  }
+
+  test("exits an element in a set that satisfy a predicate") {
+    new TestSets {
+      assert(exists(evenNumbers, x => x == 4), "Number 4 exists in even numbers")
+      assert(!exists(evenNumbers, x =>  x == 5), "Number 5 not exists in even numbers")
+    }
+  }
+  
+  test("apply a function to each element in a set") {
+    new TestSets {
+      val s = map(evenNumbers, x => x + 1)
+      assert(contains(s, 1))
+      assert(!contains(s, 2))
+      assert(contains(s, 3))
     }
   }
 }
