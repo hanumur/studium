@@ -77,6 +77,12 @@ class FunSetSuite extends FunSuite {
     val s1 = singletonSet(1)
     val s2 = singletonSet(2)
     val s3 = singletonSet(3)
+
+    def evenNumbers: Set = x => x % 2 == 0
+    def boundedSet(i: Int, j: Int): Set = x => x >= i && x <= j
+    def arbitrarySet(i: Int*): Set = x => i.contains(x)
+    val set1 = boundedSet(1, 2)
+    val set2 = boundedSet(2, 3)
   }
 
   /**
@@ -86,7 +92,7 @@ class FunSetSuite extends FunSuite {
    * Once you finish your implementation of "singletonSet", exchange the
    * function "ignore" by "test".
    */
-  ignore("singletonSet(1) contains 1") {
+  test("singletonSet(1) contains 1") {
     
     /**
      * We create a new instance of the "TestSets" trait, this gives us access
@@ -101,12 +107,39 @@ class FunSetSuite extends FunSuite {
     }
   }
 
-  ignore("union contains all elements") {
+  test("union contains all elements") {
     new TestSets {
       val s = union(s1, s2)
       assert(contains(s, 1), "Union 1")
       assert(contains(s, 2), "Union 2")
       assert(!contains(s, 3), "Union 3")
+    }
+  }
+
+  test("intersect contains all elements in both sets") {
+    new TestSets {
+      val s = intersect(set1, set2)
+      assert(!contains(s, 1), "Intersect 1")
+      assert(contains(s, 2), "Intersect 2")
+      assert(!contains(s, 3), "Intersect 3")
+    }
+  }
+
+  test("diff contains all elements in a set that are not in another") {
+    new TestSets {
+      val s = diff(set1, set2)
+      assert(contains(s, 1), "Intersect 1")
+      assert(!contains(s, 2), "Intersect 2")
+      assert(!contains(s, 3), "Intersect 3")
+    }
+  }
+
+  test("filter elements in a set that holds a predicate") {
+    new TestSets {
+      val s = filter(set1, x => x <= 2)
+      assert(contains(s, 1), "Intersect 1")
+      assert(contains(s, 2), "Intersect 2")
+      assert(!contains(s, 3), "Intersect 3")
     }
   }
 }
