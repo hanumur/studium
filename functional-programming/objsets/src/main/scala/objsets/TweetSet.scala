@@ -56,7 +56,9 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-   def union(that: TweetSet): TweetSet = ???
+   def union(that: TweetSet): TweetSet =
+     if (that.isEmpty) this
+     else this.incl(that.head).union(that.tail)
 
   /**
    * Returns the tweet from this set which has the greatest retweet count.
@@ -107,6 +109,10 @@ abstract class TweetSet {
    * This method takes a function and applies it to every element in the set.
    */
   def foreach(f: Tweet => Unit): Unit
+
+  def isEmpty: Boolean
+  def head: Tweet
+  def tail: TweetSet
 }
 
 class Empty extends TweetSet {
@@ -125,6 +131,10 @@ class Empty extends TweetSet {
   def remove(tweet: Tweet): TweetSet = this
 
   def foreach(f: Tweet => Unit): Unit = ()
+
+  def isEmpty = true
+  def head = throw new NoSuchElementException("head of EmptySet")
+  def tail = throw new NoSuchElementException("tail of EmptySet")
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -165,6 +175,10 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     left.foreach(f)
     right.foreach(f)
   }
+
+  def isEmpty = false
+  def head = elem
+  def tail = left.union(right)
 }
 
 trait TweetList {
