@@ -11,31 +11,58 @@ Landing the next tech job.
 
 ### Questions
 
+#### Java
+
 - Primitive data types in Java
 - Define constant
-- Define what is a class
+- HashMap is thread safe?
+- Serialization
+- final, finally, finalize
+- interface Comparable
+- Garbage collector
+- Visibility: private, package, public
+- Equals & HashCode
 - Abstract class vs. Interface
+- Exception vs. RuntimeException
+
+#### Programming
+
+- Define what is a class
 - Encapsulation
 - Polymorphism
 - Immutable object
-- HashMap is thread safe?
-- Exception vs. RuntimeException
-- Serialization
-- Finally block
 - UTF8
-- Garbage collector
+- RESTful api: GET, POST
+
+#### Unix
+
 - Apache config file
 - .bashrc
 - wc -l
-- Pair pogramming
-- RESTful api: GET, POST
-- UI Testing - Geb
+
+#### Networking
+
+- TCP/IP
+- How Internet works 
+- DNS
+
+#### Groovy/Grails
 
 - Binding Grails
-
 - MetaProgramming
+- New features Grails 2.x
+- save()
+- UI Testing - Geb
+
+#### SQL
+
 - Inner Join vs. Outer Join
 
-- .save()
-- New features Grails 2.x
+#### Scalability
+
 - Scaling up a website to deal with high-volume traffic. Caching. Database queries
+
+#### Agile
+
+- Pair pogramming
+
