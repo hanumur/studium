@@ -16,11 +16,31 @@
 #
 # You can run the test suite with: `ruby combined_enumerator.rb`.
 class CombinedOrderedEnumerator < Enumerator
-  class UnorderedEnumerator < RuntimeError; end
-
-  def initialize(*)
-    super() do |yielder|
+  class UnorderedEnumerator < RuntimeError
+    def initialize(enumerator)
+      @enumerator = enumerator
     end
+
+    attr_reader :enumerator
+  end
+
+  def initialize(*enumerators)
+    @enumerators = enumerators
+  end
+
+  attr_reader :enumerators
+
+  def take(n)
+    enumerators.reduce([]) { |elements, enumerator|
+      raise UnorderedEnumerator.new(enumerator) unless sorted?(enumerator.take(n))
+      elements + enumerator.take(n)
+    }.sort.take(n)
+  end
+
+  private
+
+  def sorted?(list)
+    list.each_cons(2).all? { |pair| pair.first <= pair.last }
   end
 end
 
