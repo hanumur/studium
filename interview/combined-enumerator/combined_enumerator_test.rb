@@ -25,22 +25,34 @@ class CombinedOrderedEnumerator < Enumerator
   end
 
   def initialize(*enumerators)
-    @enumerators = enumerators
+    super() do |yielder|
+      enumerators.reduce([]) { |elements, enumerator|
+        elements + lazy_select(enumerator).take(n)
+      }.sort.each { |value| yielder.yield value }
+    end
   end
 
-  attr_reader :enumerators
-
   def take(n)
-    enumerators.reduce([]) { |elements, enumerator|
-      raise UnorderedEnumerator.new(enumerator) unless sorted?(enumerator.take(n))
-      elements + enumerator.take(n)
-    }.sort.take(n)
+    @n = n
+    super
   end
 
   private
 
-  def sorted?(list)
-    list.each_cons(2).all? { |pair| pair.first <= pair.last }
+  attr_reader :n
+
+  def lazy_select(enumerator)
+    raise UnorderedEnumerator.new(enumerator) unless sorted?(enumerator)
+
+    Enumerator.new do |yielder|
+      enumerator.each do |value|
+        yielder.yield value
+      end
+    end
+  end
+
+  def sorted?(enumerator)
+    enumerator.take(n).each_cons(2).all? { |pair| pair.first <= pair.last }
   end
 end
 
