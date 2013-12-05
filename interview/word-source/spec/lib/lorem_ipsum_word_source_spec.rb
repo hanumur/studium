@@ -4,7 +4,7 @@ require "lorem_ipsum_word_source"
 describe LoremIpsumWordSource do
   subject(:src) {
     LoremIpsumWordSource.new(
-      :word_source => "lorem,ipsum,ipsum"
+      :word_source_path => File.expand_path("../../support/lorem_ipsum.txt", __FILE__)
     )
   }
 
