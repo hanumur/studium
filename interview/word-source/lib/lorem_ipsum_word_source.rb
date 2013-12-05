@@ -1,13 +1,13 @@
 class LoremIpsumWordSource
   def initialize(args)
     @word_source = args.fetch(:word_source).split(",")
-    @count = 0
     initialize_counters
   end
 
   def next_word
-    @count += 1
-    word_source[count-1]
+    word = word_source[count]
+    update_counters(word)
+    word
   end
 
   def top_5_words
@@ -18,6 +18,11 @@ class LoremIpsumWordSource
     top_five(consonant_counter)
   end
 
+  def run
+    word_source.each { |word| update_counters(word) }
+    true
+  end
+
   attr_reader :count
 
   private
@@ -25,15 +30,29 @@ class LoremIpsumWordSource
   attr_reader :word_source, :word_counter, :consonant_counter
 
   def initialize_counters
+    @count = 0
     @word_counter      = Hash.new(0)
     @consonant_counter = Hash.new(0)
+  end
 
-    word_source.each do |word|
-      @word_counter[word] = word_counter[word] + 1
-      word.each_char do |char|
-        @consonant_counter[char] = consonant_counter[char] + 1 if consonant?(char)
-      end
+  def update_counters(word)
+    update_count
+    update_word(word)
+    word.each_char do |char|
+      update_consonant(char) if consonant?(char)
     end
+  end
+
+  def update_count
+    @count += 1
+  end
+
+  def update_word(word)
+    @word_counter[word] = word_counter[word] + 1
+  end
+
+  def update_consonant(char)
+    @consonant_counter[char] = consonant_counter[char] + 1
   end
 
   def top_five(array)
