@@ -1,13 +1,15 @@
 class LoremIpsumWordSource
   def initialize(args)
     @word_source = read_file(args.fetch(:word_source_path))
+    @callback    = args.fetch(:callback) { Object.new }
     initialize_counters
   end
 
   def next_word
-    word = word_source[count]
-    update_counters(word)
-    word
+    take_next_word { |word|
+      update_counters(word)
+      callback.run if special_word(word)
+    }
   end
 
   def top_5_words
@@ -27,7 +29,7 @@ class LoremIpsumWordSource
 
   private
 
-  attr_reader :word_source, :word_counter, :consonant_counter
+  attr_reader :word_source, :word_counter, :consonant_counter, :callback
 
   def read_file(path)
     File.read(path).strip.split(",")
@@ -37,6 +39,16 @@ class LoremIpsumWordSource
     @count = 0
     @word_counter      = Hash.new(0)
     @consonant_counter = Hash.new(0)
+  end
+
+  def take_next_word(&block)
+    word = word_source[count]
+    block.call(word)
+    word
+  end
+
+  def special_word(word)
+    word == "semper"
   end
 
   def update_counters(word)
