@@ -7,29 +7,28 @@ class LoremIpsumWordSource
 
   def next_word
     take_next_word { |word|
-      update_counters(word)
-      callback.run if special_word(word)
+      increment_counters(word)
+      callback.run if special_word?(word)
     }
   end
 
   def top_5_words
-    top_five(word_counter)
+    top_five(words_counter)
   end
 
   def top_5_consonants
-    top_five(consonant_counter)
+    top_five(consonants_counter)
   end
 
   def run
-    word_source.each { |word| update_counters(word) }
-    true
+    word_source.each { |word| increment_counters(word) } && true
   end
 
   attr_reader :count
 
   private
 
-  attr_reader :word_source, :word_counter, :consonant_counter, :callback
+  attr_reader :word_source, :words_counter, :consonants_counter, :callback
 
   def read_file(path)
     File.read(path).strip.split(",")
@@ -37,38 +36,40 @@ class LoremIpsumWordSource
 
   def initialize_counters
     @count = 0
-    @word_counter      = Hash.new(0)
-    @consonant_counter = Hash.new(0)
+    @words_counter      = Hash.new(0)
+    @consonants_counter = Hash.new(0)
   end
 
   def take_next_word(&block)
-    word = word_source[count]
-    block.call(word)
-    word
+    current_word.tap { |word| block.call(word) }
   end
 
-  def special_word(word)
+  def current_word
+    word_source[count]
+  end
+
+  def special_word?(word)
     word == "semper"
   end
 
-  def update_counters(word)
-    update_count
-    update_word(word)
+  def increment_counters(word)
+    increment_count
+    increment_word_counter(word)
     word.each_char do |char|
-      update_consonant(char) if consonant?(char)
+      increment_consonant_counter(char) if consonant?(char)
     end
   end
 
-  def update_count
+  def increment_count
     @count += 1
   end
 
-  def update_word(word)
-    @word_counter[word] = word_counter[word] + 1
+  def increment_word_counter(word)
+    @words_counter[word] += 1
   end
 
-  def update_consonant(char)
-    @consonant_counter[char] = consonant_counter[char] + 1
+  def increment_consonant_counter(char)
+    @consonants_counter[char] += 1
   end
 
   def top_five(array)

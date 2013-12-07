@@ -14,6 +14,11 @@ describe LoremIpsumWordSource do
     expect(src.next_word).to eq "ipsum"
   end
 
+  it "exhausts the words available" do
+    expect(src.run).to be_true
+    expect(src.count).to eq 3
+  end
+
   describe "counter statics" do
     before do
       src.next_word
