@@ -31,7 +31,7 @@ describe LoremIpsumWordSource do
     end
 
     it "returns the top five words" do
-      expect(src.top_5_consonants).to eq ["m","s","p","r","l"]
+      expect(src.top_5_consonants).to eq ["m","p","s","l","r"]
     end
 
     it "retuns total words seen" do

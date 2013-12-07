@@ -79,7 +79,7 @@ class LoremIpsumWordSource
   end
 
   def sort_hash_by_value(hash)
-    Hash[hash.sort_by{|_, v| v}.reverse]
+    Hash[hash.sort_by { |item, count| [-count, item] }]
   end
 
   def consonant?(char)
