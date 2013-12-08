@@ -1,6 +1,6 @@
 class LoremIpsumWordSource
   def initialize(args)
-    @word_source = read_file(args.fetch(:word_source_path))
+    @word_source = args.fetch(:word_source).strip.split(",")
     @callback    = args.fetch(:callback) { Object.new }
     initialize_counters
   end
@@ -29,10 +29,6 @@ class LoremIpsumWordSource
   private
 
   attr_reader :word_source, :words_counter, :consonants_counter, :callback
-
-  def read_file(path)
-    File.read(path).strip.split(",")
-  end
 
   def initialize_counters
     @count = 0

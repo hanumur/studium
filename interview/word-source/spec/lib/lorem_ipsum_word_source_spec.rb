@@ -4,7 +4,7 @@ require "lorem_ipsum_word_source"
 describe LoremIpsumWordSource do
   subject(:src) {
     LoremIpsumWordSource.new(
-      :word_source_path => expand_path("../../support/lorem_ipsum.txt"),
+      :word_source => "lorem,ipsum,ipsum",
     )
   }
 
@@ -43,8 +43,8 @@ describe LoremIpsumWordSource do
     let(:callback) { double(:callback, :run => nil) }
     subject(:src)  {
       LoremIpsumWordSource.new(
-        :word_source_path => expand_path("../../support/lorem_callback.txt"),
-        :callback         => callback,
+        :word_source => "lorem,semper,semper",
+        :callback    => callback,
       )
     }
 
@@ -54,11 +54,5 @@ describe LoremIpsumWordSource do
       src.next_word
       expect(callback).to have_received(:run).twice
     end
-  end
-
-  private
-
-  def expand_path(path)
-    File.expand_path(path, __FILE__)
   end
 end
