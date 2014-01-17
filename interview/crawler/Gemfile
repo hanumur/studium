@@ -2,6 +2,7 @@ source "https://rubygems.org"
 ruby "2.1.0"
 
 gem "cobweb", :git => "git://github.com/arturoherrero/cobweb/"
+gem "foreman"
 gem "resque"
 
 group :development, :test do

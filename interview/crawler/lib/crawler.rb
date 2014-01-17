@@ -1,8 +1,10 @@
 require "cobweb"
+require_relative "../jobs/index_page"
 
 class Crawler
   def initialize(args = {})
     @crawler = args.fetch(:crawler_engine) { CobwebCrawler.new }
+    @index_page_enqueuer = args.fetch(:index_page_enqueuer) { IndexPage.method(:enqueue) }
   end
 
   def site_map
@@ -11,34 +13,17 @@ class Crawler
 
   private
 
-  attr_reader :crawler
+  attr_reader :crawler, :index_page_enqueuer
 
   def statistics
     Hash.new.tap do |statistics|
       crawler.crawl(url) do |page|
-        statistics[page.fetch(:url)] = statistics_for_url(page)
+        statistics[page.fetch(:url)] = index_page_enqueuer.call(page)
       end
     end
   end
 
-  def statistics_for_url(page)
-    {
-      :links  => links(page),
-      :assets => assets(page),
-    }
-  end
-
-  def links(page)
-    page.fetch(:links).fetch(:links)
-  end
-
-  def assets(page)
-    Hash.new.tap do |assets|
-      assets[:images]  = page.fetch(:links).fetch(:images)
-      assets[:scripts] = page.fetch(:links).fetch(:scripts)
-      assets[:styles]  = page.fetch(:links).fetch(:styles)
-    end
-  end
+  private
 
   def url
     "https://gocardless.com/"
